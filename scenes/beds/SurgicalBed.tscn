@@ -1,0 +1,190 @@
+[gd_scene load_steps=7 format=3 uid="uid://dax5n2p8w1r6v"]
+
+[ext_resource type="Script" path="res://scenes/beds/SurgicalBed.gd" id="1_7j2k5"]
+[ext_resource type="Texture2D" path="res://assets/medical/surgical_bed.svg" id="2_8m4l3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(100, 60)
+
+[sub_resource type="Animation" id="Animation_1"]
+resource_name = "height_high"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20)]
+}
+
+[sub_resource type="Animation" id="Animation_2"]
+resource_name = "height_low"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_3"]
+resource_name = "height_medium"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
+_data = {
+"height_high": SubResource("Animation_1"),
+"height_low": SubResource("Animation_2"),
+"height_medium": SubResource("Animation_3")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 80.0
+
+[node name="SurgicalBed" type="Area2D"]
+script = ExtResource("1_7j2k5")
+
+[node name="BedSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_8m4l3")
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="LightStrip" type="Sprite2D" parent="."]
+position = Vector2(0, -60)
+scale = Vector2(1.2, 1.2)
+modulate = Color(1, 1, 1, 0.3)
+
+[node name="ProximityArea" type="Area2D" parent="."]
+
+[node name="ProximityCollision" type="CollisionShape2D" parent="ProximityArea"]
+shape = SubResource("CircleShape2D_1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1")
+}
+
+[node name="ControlPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+
+[node name="Background" type="ColorRect" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.2, 0.2, 0.3, 0.8)
+
+[node name="Title" type="Label" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -140.0
+offset_right = 50.0
+offset_bottom = -120.0
+text = "Surgical Bed Controls"
+horizontal_alignment = 1
+
+[node name="HeightControls" type="VBoxContainer" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 120.0
+
+[node name="HeightLabel" type="Label" parent="ControlPanel/HeightControls"]
+layout_mode = 2
+text = "Bed Height:"
+horizontal_alignment = 1
+
+[node name="LowButton" type="Button" parent="ControlPanel/HeightControls"]
+layout_mode = 2
+text = "LOW"
+
+[node name="MediumButton" type="Button" parent="ControlPanel/HeightControls"]
+layout_mode = 2
+text = "MEDIUM"
+
+[node name="HighButton" type="Button" parent="ControlPanel/HeightControls"]
+layout_mode = 2
+text = "HIGH"
+
+[node name="TemperatureControls" type="VBoxContainer" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 20.0
+offset_right = 240.0
+offset_bottom = 120.0
+
+[node name="TempLabel" type="Label" parent="ControlPanel/TemperatureControls"]
+layout_mode = 2
+text = "Temperature:"
+horizontal_alignment = 1
+
+[node name="CoolButton" type="Button" parent="ControlPanel/TemperatureControls"]
+layout_mode = 2
+text = "COOL"
+
+[node name="NormalButton" type="Button" parent="ControlPanel/TemperatureControls"]
+layout_mode = 2
+text = "NORMAL"
+
+[node name="WarmButton" type="Button" parent="ControlPanel/TemperatureControls"]
+layout_mode = 2
+text = "WARM"
+
+[node name="LightingControls" type="VBoxContainer" parent="ControlPanel"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 260.0
+offset_top = 20.0
+offset_right = 360.0
+offset_bottom = 120.0
+
+[node name="LightLabel" type="Label" parent="ControlPanel/LightingControls"]
+layout_mode = 2
+text = "Lighting:"
+horizontal_alignment = 1
+
+[node name="AutoButton" type="Button" parent="ControlPanel/LightingControls"]
+layout_mode = 2
+text = "AUTO"
+
+[node name="ManualButton" type="Button" parent="ControlPanel/LightingControls"]
+layout_mode = 2
+text = "MANUAL"

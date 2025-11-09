@@ -1,0 +1,309 @@
+[gd_scene load_steps=6 format=3 uid="uid://8sxf3lcnoxm7"]
+
+[ext_resource type="Script" uid="uid://214lhh76jqpi" path="res://scenes/beds/surgical_bed_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://vcdgcl3doaf7" path="res://assets/medical/surgical_bed.svg" id="2_bed_texture"]
+[ext_resource type="Texture2D" uid="uid://bnfbhktjgq7re" path="res://assets/medical/light_strip.svg" id="2_xgvsl"]
+[ext_resource type="Texture2D" uid="uid://2tffsoqlwonw" path="res://assets/medical/scanner.svg" id="3_0gij1"]
+[ext_resource type="Theme" uid="uid://hwigbonx807c" path="res://themes/medical_ui_theme.tres" id="5_theme"]
+
+[node name="SurgicalBedMenu" type="MarginContainer"]
+custom_minimum_size = Vector2(1600, 1200)
+offset_right = 1600.0
+offset_bottom = 1200.0
+theme = ExtResource("5_theme")
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.15, 0.2, 0.3, 0.9)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="BedDisplay" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="BedLabel" type="Label" parent="HBoxContainer/BedDisplay"]
+layout_mode = 2
+text = "Surgical Bed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LightBar" type="TextureRect" parent="HBoxContainer/BedDisplay"]
+layout_mode = 2
+texture = ExtResource("2_xgvsl")
+
+[node name="Scanner" type="TextureRect" parent="HBoxContainer/BedDisplay"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 0
+texture = ExtResource("3_0gij1")
+stretch_mode = 3
+
+[node name="BedImage" type="TextureRect" parent="HBoxContainer/BedDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 0
+texture = ExtResource("2_bed_texture")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ControlsPanel" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 25
+
+[node name="Title" type="Label" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+text = "Surgical Bed Controls"
+horizontal_alignment = 1
+
+[node name="HeightControls" type="VBoxContainer" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="HeightLabel" type="Label" parent="HBoxContainer/ControlsPanel/HeightControls"]
+layout_mode = 2
+text = "Bed Height:"
+horizontal_alignment = 1
+
+[node name="HeightButtons" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/HeightControls"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="LowButton" type="Button" parent="HBoxContainer/ControlsPanel/HeightControls/HeightButtons"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "LOW"
+
+[node name="MediumButton" type="Button" parent="HBoxContainer/ControlsPanel/HeightControls/HeightButtons"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "MEDIUM"
+
+[node name="HighButton" type="Button" parent="HBoxContainer/ControlsPanel/HeightControls/HeightButtons"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HIGH"
+
+[node name="Separator1" type="HSeparator" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="TemperatureControls" type="VBoxContainer" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="TempLabel" type="Label" parent="HBoxContainer/ControlsPanel/TemperatureControls"]
+layout_mode = 2
+text = "Bed Temperature:"
+horizontal_alignment = 1
+
+[node name="TempButtons" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/TemperatureControls"]
+layout_mode = 2
+
+[node name="CoolButton" type="Button" parent="HBoxContainer/ControlsPanel/TemperatureControls/TempButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "COOL"
+
+[node name="NormalButton" type="Button" parent="HBoxContainer/ControlsPanel/TemperatureControls/TempButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "NORMAL"
+
+[node name="WarmButton" type="Button" parent="HBoxContainer/ControlsPanel/TemperatureControls/TempButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "WARM"
+
+[node name="Separator2" type="HSeparator" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="LightingControls" type="VBoxContainer" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="LightLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls"]
+layout_mode = 2
+text = "Lighting Control:"
+horizontal_alignment = 1
+
+[node name="LightButtons" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls"]
+layout_mode = 2
+
+[node name="AutoButton" type="Button" parent="HBoxContainer/ControlsPanel/LightingControls/LightButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "AUTO"
+
+[node name="ManualButton" type="Button" parent="HBoxContainer/ControlsPanel/LightingControls/LightButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MANUAL"
+
+[node name="BrightnessControl" type="VBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls"]
+layout_mode = 2
+
+[node name="BrightnessLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/BrightnessControl"]
+layout_mode = 2
+text = "Manual Brightness:"
+horizontal_alignment = 1
+
+[node name="BrightnessSlider" type="HSlider" parent="HBoxContainer/ControlsPanel/LightingControls/BrightnessControl"]
+layout_mode = 2
+value = 50.0
+
+[node name="ColorControls" type="VBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls"]
+layout_mode = 2
+
+[node name="ColorLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls"]
+layout_mode = 2
+text = "RGB Color Intensity:"
+horizontal_alignment = 1
+
+[node name="RedControl" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls"]
+layout_mode = 2
+
+[node name="RedLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/RedControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "Red:"
+
+[node name="RedSlider" type="HSlider" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/RedControl"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="RedValue" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/RedControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="GreenControl" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls"]
+layout_mode = 2
+
+[node name="GreenLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/GreenControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "Green:"
+
+[node name="GreenSlider" type="HSlider" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/GreenControl"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="GreenValue" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/GreenControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="BlueControl" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls"]
+layout_mode = 2
+
+[node name="BlueLabel" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/BlueControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "Blue:"
+
+[node name="BlueSlider" type="HSlider" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/BlueControl"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="BlueValue" type="Label" parent="HBoxContainer/ControlsPanel/LightingControls/ColorControls/BlueControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="EmergencyControl" type="VBoxContainer" parent="HBoxContainer/ControlsPanel/LightingControls"]
+layout_mode = 2
+
+[node name="EmergencyButton" type="Button" parent="HBoxContainer/ControlsPanel/LightingControls/EmergencyControl"]
+layout_mode = 2
+text = "EMERGENCY MODE"
+icon_alignment = 1
+
+[node name="Separator3" type="HSeparator" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="ScannerControls" type="VBoxContainer" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="ScannerLabel" type="Label" parent="HBoxContainer/ControlsPanel/ScannerControls"]
+layout_mode = 2
+text = "Scanner Control:"
+horizontal_alignment = 1
+
+[node name="ScannerButtons" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/ScannerControls"]
+layout_mode = 2
+
+[node name="PowerButton" type="Button" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "POWER ON"
+
+[node name="ScanButton" type="Button" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "START SCAN"
+
+[node name="ScannerPosition" type="VBoxContainer" parent="HBoxContainer/ControlsPanel/ScannerControls"]
+layout_mode = 2
+
+[node name="PositionLabel" type="Label" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerPosition"]
+layout_mode = 2
+text = "Scanner Position:"
+horizontal_alignment = 1
+
+[node name="PositionButtons" type="HBoxContainer" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerPosition"]
+layout_mode = 2
+
+[node name="RightButton" type="Button" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerPosition/PositionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "MOVE RIGHT"
+
+[node name="CenterButton" type="Button" parent="HBoxContainer/ControlsPanel/ScannerControls/ScannerPosition/PositionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "CENTER"
+
+[node name="ScannerStatus" type="Label" parent="HBoxContainer/ControlsPanel/ScannerControls"]
+layout_mode = 2
+text = "Status: OFF | Position: CENTER"
+horizontal_alignment = 1
+
+[node name="Separator4" type="HSeparator" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="StatusPanel" type="VBoxContainer" parent="HBoxContainer/ControlsPanel"]
+layout_mode = 2
+
+[node name="StatusTitle" type="Label" parent="HBoxContainer/ControlsPanel/StatusPanel"]
+layout_mode = 2
+text = "Current Status:"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="HBoxContainer/ControlsPanel/StatusPanel"]
+layout_mode = 2
+text = "Height: MEDIUM | Temp: NORMAL | Light: AUTO"
+horizontal_alignment = 1
+autowrap_mode = 2

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhk8m2n5y7p4x"]
+
+[ext_resource type="Script" path="res://scenes/beds/PatientBed.gd" id="1_4k8m7"]
+[ext_resource type="Texture2D" path="res://assets/medical/patient_bed.svg" id="2_3h6n9"]
+[ext_resource type="Texture2D" path="res://assets/medical/light_strip.svg" id="3_7j2k8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 80.0
+
+[node name="PatientBed" type="Area2D"]
+script = ExtResource("1_4k8m7")
+
+[node name="BedSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_3h6n9")
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="LightStrip" type="Sprite2D" parent="."]
+position = Vector2(0, -60)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("3_7j2k8")
+modulate = Color(1, 0.9, 0.7, 0.3)
+
+[node name="ProximityArea" type="Area2D" parent="."]
+
+[node name="ProximityCollision" type="CollisionShape2D" parent="ProximityArea"]
+shape = SubResource("CircleShape2D_1")

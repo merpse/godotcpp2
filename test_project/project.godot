@@ -1,0 +1,20 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Window Extension Test"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.5")
+run/script_template_search_path="res://main_simple.gd"
+
+[dotnet]
+
+project/assembly_name="Window Extension Test"

@@ -1,0 +1,187 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgnxlqgqmrjhm"]
+
+[ext_resource type="Script" uid="uid://csj0i6s5vanhf" path="res://MedicalEquipmentDemo.gd" id="1_0w2xh"]
+[ext_resource type="Texture2D" uid="uid://bqx7vt1foh4j4" path="res://assets/medical/hospital_background.svg" id="2_medical_bg"]
+
+[node name="MedicalEquipmentDemo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0w2xh")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VisualArea" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HospitalLabel" type="Label" parent="HBoxContainer/VisualArea"]
+layout_mode = 2
+text = "🏥 Medical Equipment Visualization"
+horizontal_alignment = 1
+
+[node name="HospitalRoom" type="Control" parent="HBoxContainer/VisualArea"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Background" type="TextureRect" parent="HBoxContainer/VisualArea/HospitalRoom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 62.0
+offset_top = -12.0
+offset_right = 500.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_medical_bg")
+stretch_mode = 6
+
+[node name="MedicalEquipment" type="Node2D" parent="HBoxContainer/VisualArea/HospitalRoom"]
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ControlsContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Title" type="Label" parent="HBoxContainer/ControlsContainer"]
+layout_mode = 2
+text = "🏥 Medical Equipment Extension Demo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/ControlsContainer"]
+layout_mode = 2
+
+[node name="ControlPanel" type="VBoxContainer" parent="HBoxContainer/ControlsContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="BedCreationLabel" type="Label" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+text = "🛏️ Factory Pattern - Bed Creation:"
+
+[node name="BedButtons" type="HBoxContainer" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="PatientBedButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/BedButtons"]
+layout_mode = 2
+text = "Create Patient Bed"
+
+[node name="SurgicalBedButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/BedButtons"]
+layout_mode = 2
+text = "Create Surgical Bed"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="ControlsLabel" type="Label" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+text = "🎮 Medical Equipment Controls:"
+
+[node name="ControlButtons" type="HBoxContainer" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="EmergencyButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons"]
+layout_mode = 2
+text = "🚨 Emergency Alert"
+
+[node name="ComfortButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons"]
+layout_mode = 2
+text = "😌 Comfort Mode"
+
+[node name="SterileButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons"]
+layout_mode = 2
+text = "🧪 Sterile Mode"
+
+[node name="WindowShadeButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons"]
+layout_mode = 2
+text = "🪟 Window Shade"
+
+[node name="CurtainButton" type="Button" parent="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons"]
+layout_mode = 2
+text = "🎭 Curtain Control"
+
+[node name="LightingLabel" type="Label" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+text = "💡 Strategy Pattern - Lighting Control:"
+
+[node name="LightingControl" type="HBoxContainer" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="LightingLabel2" type="Label" parent="HBoxContainer/ControlsContainer/ControlPanel/LightingControl"]
+layout_mode = 2
+text = "Brightness:"
+
+[node name="LightingSlider" type="HSlider" parent="HBoxContainer/ControlsContainer/ControlPanel/LightingControl"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 5.0
+value = 50.0
+
+[node name="BrightnessValue" type="Label" parent="HBoxContainer/ControlsContainer/ControlPanel/LightingControl"]
+layout_mode = 2
+text = "50%"
+
+[node name="HSeparator3" type="HSeparator" parent="HBoxContainer/ControlsContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="OutputPanel" type="VBoxContainer" parent="HBoxContainer/ControlsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="Label" parent="HBoxContainer/ControlsContainer/OutputPanel"]
+layout_mode = 2
+text = "📊 Medical Equipment Output:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ControlsContainer/OutputPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="RichTextLabel" parent="HBoxContainer/ControlsContainer/OutputPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "🏥 Medical Equipment Demo Ready
+Select a bed type to begin..."
+
+[node name="ClearButton" type="Button" parent="HBoxContainer/ControlsContainer/OutputPanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Clear Output"
+
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/BedButtons/PatientBedButton" to="." method="_on_patient_bed_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/BedButtons/SurgicalBedButton" to="." method="_on_surgical_bed_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons/EmergencyButton" to="." method="_on_emergency_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons/ComfortButton" to="." method="_on_comfort_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons/SterileButton" to="." method="_on_sterile_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons/WindowShadeButton" to="." method="_on_window_shade_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/ControlPanel/ControlButtons/CurtainButton" to="." method="_on_curtain_button_pressed"]
+[connection signal="value_changed" from="HBoxContainer/ControlsContainer/ControlPanel/LightingControl/LightingSlider" to="." method="_on_lighting_slider_value_changed"]
+[connection signal="pressed" from="HBoxContainer/ControlsContainer/OutputPanel/ClearButton" to="." method="_on_clear_output_pressed"]

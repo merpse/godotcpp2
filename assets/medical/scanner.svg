@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="80" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Medical Scanner -->
+  <!-- Main scanner body -->
+  <rect x="10" y="15" width="80" height="40" fill="#E8F4FD" stroke="#B0D4F1" stroke-width="2" rx="6"/>
+  
+  <!-- Scanner opening -->
+  <circle cx="50" cy="35" r="15" fill="#000000" stroke="#333333" stroke-width="2"/>
+  <circle cx="50" cy="35" r="12" fill="#1A1A2E" stroke="#16213E" stroke-width="1"/>
+  
+  <!-- Patient table -->
+  <rect x="25" y="50" width="50" height="8" fill="#F0F0F0" stroke="#CCCCCC" stroke-width="1" rx="2"/>
+  
+  <!-- Table support -->
+  <rect x="47" y="58" width="6" height="10" fill="#999999"/>
+  
+  <!-- Control panel -->
+  <rect x="15" y="20" width="15" height="10" fill="#F8F8F8" stroke="#DDDDDD" stroke-width="1" rx="2"/>
+  
+  <!-- Indicator lights -->
+  <circle cx="18" cy="23" r="1.5" fill="#4ECDC4"/>
+  <circle cx="22" cy="23" r="1.5" fill="#FFD700"/>
+  <circle cx="26" cy="23" r="1.5" fill="#FF6B6B"/>
+  
+  <!-- Status display -->
+  <rect x="18" y="25" width="10" height="3" fill="#000000"/>
+  <text x="23" y="27" font-family="Arial, sans-serif" font-size="3" text-anchor="middle" fill="#00FF00">READY</text>
+  
+  <!-- Scanner type indicators -->
+  <text x="50" y="10" font-family="Arial, sans-serif" font-size="6" text-anchor="middle" fill="#666">MRI | CT | X-RAY</text>
+  
+  <!-- Base -->
+  <rect x="5" y="68" width="90" height="8" fill="#DDDDDD" stroke="#BBBBBB" stroke-width="1" rx="3"/>
+  
+  <!-- Scanner label -->
+  <text x="50" y="78" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">Multi-Scanner</text>
+</svg>

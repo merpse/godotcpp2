@@ -1,0 +1,66 @@
+# Godot Files
+.godot/
+*.tmp
+*.temp
+
+# Build directories and outputs
+build/
+build_tests/
+bin/*.dylib
+bin/*.so
+bin/*.dll
+bin/*.a
+
+# Build logs
+build.log
+build_output.log
+*.log
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.vcxproj*
+*.sln
+
+# C++ Build artifacts
+*.o
+*.obj
+*.lib
+*.exp
+*.pdb
+*.ilk
+
+# IDE files
+.vscode/
+.vs/
+*.user
+*.vcxproj.filters
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Godot auto-generated files
+*.uid
+export_presets.cfg
+
+# Testing artifacts
+tests/build/
+testing/
+
+# Temporary files
+*~
+*.swp
+*.bak
+*.orig
+
+# Dependencies (keep source, ignore builds)
+godot-cpp/
+extensions/googletest/
+
+# Documentation build artifacts
+docs/html/
+docs/latex/

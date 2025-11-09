@@ -1,0 +1,6 @@
+
+{
+  "entry_symbol": "window_library_init",
+  "dependencies": [],
+  "include_paths": ["window"]
+}

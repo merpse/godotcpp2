@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8md4p7qk9n5x"]
+
+[ext_resource type="Script" path="res://SurgicalBedMenuDemo.gd" id="1_demo_script"]
+
+[node name="SurgicalBedMenuDemo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_demo_script")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Surgical Bed Menu Demo"
+horizontal_alignment = 1
+
+[node name="MenuContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ControlButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ClearLogButton" type="Button" parent="VBoxContainer/ControlButtons"]
+layout_mode = 2
+text = "Clear Log"
+
+[node name="TestAllButton" type="Button" parent="VBoxContainer/ControlButtons"]
+layout_mode = 2
+text = "Test All Functions"
+
+[node name="GetStatusButton" type="Button" parent="VBoxContainer/ControlButtons"]
+layout_mode = 2
+text = "Get Status"
+
+[node name="SurgicalButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="StartProcedureButton" type="Button" parent="VBoxContainer/SurgicalButtons"]
+layout_mode = 2
+text = "Start Procedure"
+
+[node name="MaintenanceButton" type="Button" parent="VBoxContainer/SurgicalButtons"]
+layout_mode = 2
+text = "Maintenance Check"
+
+[node name="EmergencyButton" type="Button" parent="VBoxContainer/SurgicalButtons"]
+layout_mode = 2
+text = "Emergency Test"
+
+[node name="OutputPanel" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="Label" parent="VBoxContainer/OutputPanel"]
+layout_mode = 2
+text = "Output Log:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/OutputPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="Label" parent="VBoxContainer/OutputPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+autowrap_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/ControlButtons/ClearLogButton" to="." method="_on_clear_log_pressed"]
+[connection signal="pressed" from="VBoxContainer/ControlButtons/TestAllButton" to="." method="_on_test_all_pressed"]
+[connection signal="pressed" from="VBoxContainer/ControlButtons/GetStatusButton" to="." method="_on_get_status_pressed"]
+[connection signal="pressed" from="VBoxContainer/SurgicalButtons/StartProcedureButton" to="." method="_on_start_procedure_pressed"]
+[connection signal="pressed" from="VBoxContainer/SurgicalButtons/MaintenanceButton" to="." method="_on_maintenance_check_pressed"]
+[connection signal="pressed" from="VBoxContainer/SurgicalButtons/EmergencyButton" to="." method="_on_emergency_test_pressed"]
