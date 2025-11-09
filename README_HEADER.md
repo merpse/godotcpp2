@@ -15,8 +15,8 @@ A comprehensive Godot 4.5+ C++ GDExtension demonstrating professional healthcare
 
 ```bash
 # 1. Clone this repository
-git clone https://github.com/merpse/godot-medical-equipment-gdextension.git
-cd godot-medical-equipment-gdextension
+git clone https://github.com/merpse/godotcpp2.git
+cd godotcpp2
 
 # 2. Open in Godot Editor (if Godot is installed)
 godot project.godot
