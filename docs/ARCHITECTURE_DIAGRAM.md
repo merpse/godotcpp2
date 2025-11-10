@@ -159,24 +159,23 @@ target_include_directories(WindowExtension PRIVATE
 
 🏥 MEDICAL EQUIPMENT FEATURES
 ════════════════════════════
-┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│   PatientBed    │  │  SurgicalBed    │  │ MedicalDevices  │
-├─────────────────┤  ├─────────────────┤  ├─────────────────┤
-│ 😴 Sleep Track  │  │ 🧪 Sterile Mode │  │ 🔍 Multi-Scan   │
-│ 👨‍👩‍👧‍👦 Family Visit │  │ ⚕️ Procedures   │  │ ❤️ Vital Signs  │
-│ 🌡️ Comfort Temp │  │ 🔬 Device Sync  │  │ 🚨 Crit Alerts  │
-│ 💡 Warm Light   │  │ 💡 Pure Light   │  │ 🔄 Real-time    │
-│ 🛏️ Position    │  │ ❄️ Cool Temp    │  │ 📊 Data Log     │
-└─────────────────┘  └─────────────────┘  └─────────────────┘
+
+| PatientBed | SurgicalBed | MedicalDevices |
+|------------|-------------|----------------|
+| 😴 Sleep Track | 🧪 Sterile Mode | 🔍 Multi-Scan |
+| 👨‍👩‍👧‍👦 Family Visit | ⚕️ Procedures | ❤️ Vital Signs |
+| 🌡️ Comfort Temp | 🔬 Device Sync | 🚨 Crit Alerts |
+| 💡 Warm Light | 💡 Pure Light | 🔄 Real-time |
+| 🛏️ Position | ❄️ Cool Temp | 📊 Data Log |
 
 🎮 DEMO CONTROLS
 ═══════════════
-• Create Patient Bed    → Factory Pattern Demo
-• Create Surgical Bed   → Advanced Features Demo  
-• Emergency Alert       → Observer Pattern Demo
-• Comfort Mode         → Patient-Specific Features
-• Sterile Mode         → Surgical-Specific Features
-• Lighting Control     → Strategy Pattern Demo
+• **Create Patient Bed** → Factory Pattern Demo
+• **Create Surgical Bed** → Advanced Features Demo  
+• **Emergency Alert** → Observer Pattern Demo
+• **Comfort Mode** → Patient-Specific Features
+• **Sterile Mode** → Surgical-Specific Features
+• **Lighting Control** → Strategy Pattern Demo
 
 🚀 DEVELOPMENT WORKFLOW
 ═════════════════════
