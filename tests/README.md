@@ -2,7 +2,7 @@
 
 A comprehensive C++ unit testing framework for Godot GDExtensions with organized structure, shared utilities, and professional testing practices.
 
-## � Latest Test Results (November 2025)
+## 🧪 Latest Test Results (November 2025)
 
 **All tests are now passing with comprehensive coverage!**
 
@@ -31,7 +31,7 @@ A comprehensive C++ unit testing framework for Godot GDExtensions with organized
 - **Comment Syntax Cleanup**: Converted Python-style triple quotes to GDScript hash comments
 - **Headless Testing Validation**: Comprehensive verification ensuring all scripts parse correctly
 
-## �🏗️ Three-Tier Testing Architecture
+## 🏗️ Three-Tier Testing Architecture
 
 This project implements a **three-tier testing system** with clearly separated purposes:
 
