@@ -1,9 +1,9 @@
-# � Godot Extensions Collection Architecture
+# 🏗️ Godot Extensions Collection Architecture
 
 ## 📁 PROFESSIONAL EXTENSION ORGANIZATION
 ```
 extensions/
-├── medical_equipment/          �🏥 Healthcare Simulation
+├── medical_equipment/          🏥 Healthcare Simulation
 │   ├── bed.h/cpp              # Abstract base class
 │   ├── patient_bed.h/cpp      # Patient care specialization  
 │   ├── surgical_bed.h/cpp     # Surgical specialization
@@ -27,26 +27,20 @@ extensions/
 ```
 
 ## 🏗️ EXTENSION ARCHITECTURE BENEFITS
-```
-┌─────────────────────────────────────────────────────────────┐
-│                🎯 PROFESSIONAL ORGANIZATION                 │
-├─────────────────────────────────────────────────────────────┤
-│  ✅ Logical Grouping    ✅ Clear Separation                 │
-│  ✅ Independent Modules ✅ Easy Navigation                  │
-│  ✅ Scalable Structure  ✅ Pattern Learning                 │
-│  ✅ Better Maintenance  ✅ Documentation Hierarchy         │
-└─────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────┐
-│             📋 EXTENSION REGISTRY                          │
-├─────────────────────────────────────────────────────────────┤
-│ Extension         │ Classes │ Patterns │ Purpose            │
-├─────────────────────────────────────────────────────────────┤
-│ Medical Equipment │   5+    │    5     │ Healthcare Sim     │
-│ Window Controls   │   4+    │    2     │ UI Interaction     │
-│ Core Framework    │   1     │    1     │ Extension Mgmt     │
-└─────────────────────────────────────────────────────────────┘
-```
+### 🎯 PROFESSIONAL ORGANIZATION
+- ✅ **Logical Grouping** & ✅ **Clear Separation**
+- ✅ **Independent Modules** & ✅ **Easy Navigation** 
+- ✅ **Scalable Structure** & ✅ **Pattern Learning**
+- ✅ **Better Maintenance** & ✅ **Documentation Hierarchy**
+
+### 📋 EXTENSION REGISTRY
+
+| Extension | Classes | Patterns | Purpose |
+|-----------|---------|----------|---------|
+| Medical Equipment | 5+ | 5 | Healthcare Sim |
+| Window Controls | 4+ | 2 | UI Interaction |
+| Core Framework | 1 | 1 | Extension Mgmt |
 
 ```
 🏗️ DESIGN PATTERNS ARCHITECTURE
@@ -221,7 +215,7 @@ target_include_directories(WindowExtension PRIVATE
 ══════════════════════════════════════
 ```
 tests/
-├── medical_equipment/          � C++ Unit Tests (45 tests)
+├── medical_equipment/          🧪 C++ Unit Tests (45 tests)
 │   ├── test_bed_base.cpp      # Abstract bed class tests
 │   ├── test_patient_bed.cpp   # Patient bed implementation
 │   ├── test_surgical_bed.cpp  # Surgical bed + mouse interaction
@@ -237,7 +231,7 @@ tests/
 🎯 Test Results: 45/45 C++ tests + 16/16 Godot tests PASSING
 ```
 
-�🎉 ORGANIZATION BENEFITS
+🎉 ORGANIZATION BENEFITS
 ══════════════════════
 ✅ **Professional Structure** - Industry-standard code organization
 ✅ **Pattern Learning** - Each extension showcases different patterns  
