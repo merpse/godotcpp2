@@ -51,6 +51,7 @@ set(EXTENSION_SOURCES
     extensions/medical_equipment/surgical_bed.cpp
     extensions/medical_equipment/bed_factory.cpp
     extensions/medical_equipment/godot_bed_factory.cpp
+    extensions/medical_equipment/godot_light_strip.cpp
 )
 
 # Create the extension library
@@ -127,6 +128,7 @@ if(ENABLE_TESTING)
         tests/medical_equipment/test_surgical_bed.cpp
         tests/medical_equipment/test_bed_factory.cpp
         tests/medical_equipment/test_godot_bed_factory.cpp
+        tests/medical_equipment/test_light_strip_simple.cpp
         # NOTE: Window controls tests disabled due to Godot header dependencies
         # Use the independent tests/CMakeLists.txt build for complete testing
         # tests/window_controls/test_window.cpp

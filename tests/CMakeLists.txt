@@ -67,6 +67,7 @@ set(MEDICAL_EQUIPMENT_TEST_SOURCES
     medical_equipment/test_surgical_bed.cpp
     medical_equipment/test_bed_factory.cpp
     medical_equipment/test_godot_bed_factory.cpp
+    medical_equipment/test_light_strip.cpp
 )
 
 add_executable(medical_equipment_tests ${MEDICAL_EQUIPMENT_TEST_SOURCES})

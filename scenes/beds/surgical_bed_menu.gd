@@ -28,6 +28,7 @@ var is_scanning = false
 # C++ GDExtension Objects
 var cpp_surgical_bed = null
 var bed_factory = null
+var cpp_light_strip = null
 
 # Visual feedback colors for temperature
 var temperature_colors = {
@@ -87,6 +88,28 @@ func _ready():
 	setup_controls()
 	update_display()
 
+# Clean up resources when scene exits to prevent memory leaks
+func _exit_tree():
+	print("🧹 Cleaning up Surgical Bed Menu resources...")
+	
+	# Clean up emergency timer
+	if emergency_blink_timer:
+		if emergency_blink_timer.timeout.is_connected(_on_emergency_blink):
+			emergency_blink_timer.timeout.disconnect(_on_emergency_blink)
+		emergency_blink_timer.queue_free()
+		emergency_blink_timer = null
+	
+	# Clean up C++ objects (call queue_free directly)
+	if cpp_surgical_bed:
+		cpp_surgical_bed.queue_free()
+		cpp_surgical_bed = null
+	
+	if cpp_light_strip:
+		cpp_light_strip.queue_free()
+		cpp_light_strip = null
+	
+	print("✅ Surgical Bed Menu cleanup complete")
+
 func initialize_cpp_extension():
 	# Initialize C++ GDExtension surgical bed
 	print("🔗 Initializing C++ GDExtension...")
@@ -118,9 +141,25 @@ func initialize_cpp_extension():
 		else:
 			print("❌ Failed to create BedFactory")
 			setup_fallback_simulation()
+	
+	# Initialize C++ Light Strip with Strategy pattern
+	if ClassDB.class_exists("GodotLightStrip"):
+		cpp_light_strip = ClassDB.instantiate("GodotLightStrip")
+		if cpp_light_strip:
+			print("✅ C++ GodotLightStrip created successfully")
+			cpp_light_strip.set_name("SurgicalLightStrip")
+			add_child(cpp_light_strip)
+			
+			# Activate the light strip and set initial behavior
+			cpp_light_strip.activate()
+			cpp_light_strip.set_behavior("auto")  # Start in auto mode
+			
+			print("💡 C++ Strategy-based Light Strip initialized and activated")
+			print("🔆 Initial mode: ", cpp_light_strip.get_current_mode())
+		else:
+			print("❌ Failed to create GodotLightStrip object")
 	else:
-		print("⚠️ C++ Extension not available - using fallback simulation")
-		setup_fallback_simulation()
+		print("⚠️ GodotLightStrip class not available")
 
 func test_cpp_functions():
 	# Test C++ functions to verify integration
@@ -398,6 +437,16 @@ func set_lighting_mode(mode: LightingMode):
 	else:
 		print("🎭 Simulated lighting mode set to: ", LightingMode.keys()[mode])
 	
+	# Update C++ Strategy pattern if available
+	if cpp_light_strip:
+		match mode:
+			LightingMode.AUTO:
+				cpp_light_strip.set_behavior("auto")
+				print("🔄 C++ Strategy: Switched to Auto lighting behavior")
+			LightingMode.MANUAL:
+				cpp_light_strip.set_behavior("manual")
+				print("🎛️ C++ Strategy: Switched to Manual lighting behavior")
+	
 	# Update light bar with appropriate color/brightness
 	if mode == LightingMode.AUTO:
 		# Auto mode: use standard white light at high brightness
@@ -471,7 +520,7 @@ func _on_emergency_pressed():
 		stop_emergency_mode()
 
 func start_emergency_mode():
-	# Start emergency mode with blinking light bar
+	# Start emergency mode with blinking light bar using C++ Strategy pattern
 	current_emergency_state = EmergencyState.EMERGENCY
 	emergency_btn.text = "STOP EMERGENCY"
 	emergency_btn.modulate = Color(1.0, 0.5, 0.5)  # Red tint
@@ -480,14 +529,26 @@ func start_emergency_mode():
 	is_blinking = true
 	emergency_blink_timer.start()
 	
-	# Set emergency colors (bright red)
-	_set_emergency_light_color()
-	
 	# Update C++ extension if available
 	if cpp_surgical_bed:
 		print("🚨 C++ Emergency mode ACTIVATED")
 	else:
 		print("🎭 Simulated Emergency mode ACTIVATED")
+	
+	# Switch C++ Light Strip to Emergency behavior
+	if cpp_light_strip:
+		cpp_light_strip.set_behavior("emergency")
+		print("💡 C++ Strategy: Switched to Emergency lighting behavior")
+		print("🔆 Emergency mode: ", cpp_light_strip.get_current_mode())
+		
+		# Set initial emergency color using C++ brightness
+		_set_emergency_light_color()
+	else:
+		print("⚠️ C++ Light Strip not available - using manual emergency mode")
+		# Set emergency colors manually (bright red)
+		_set_emergency_light_color()
+		# Set emergency colors manually (bright red)
+		_set_emergency_light_color()
 	
 	emergency_mode_changed.emit(true)
 
@@ -510,6 +571,15 @@ func stop_emergency_mode():
 	else:
 		print("🎭 Simulated Emergency mode DEACTIVATED")
 	
+	# Switch C++ Light Strip back to normal behavior
+	if cpp_light_strip:
+		if current_lighting_mode == LightingMode.AUTO:
+			cpp_light_strip.set_behavior("auto")
+			print("💡 C++ Strategy: Returned to auto lighting behavior")
+		else:
+			cpp_light_strip.set_behavior("manual")
+			print("💡 C++ Strategy: Returned to manual lighting behavior")
+	
 	emergency_mode_changed.emit(false)
 
 func setup_emergency_timer():
@@ -525,32 +595,92 @@ func setup_emergency_timer():
 	add_child(emergency_blink_timer)
 
 func _on_emergency_blink():
-	# Handle emergency blinking animation
-	if is_blinking:
-		# Toggle between emergency color and dim
+	# Handle emergency blinking animation using C++ Strategy pattern
+	if not is_blinking:
+		return
+		
+	# Safety check for light_bar node
+	if not light_bar:
+		print("⚠️ Light bar node not found - cannot blink")
+		return
+	
+	if cpp_light_strip:
+		# Use C++ Strategy pattern for emergency blinking
+		var current_brightness_raw = cpp_light_strip.get_brightness()
+		var current_mode = cpp_light_strip.get_current_mode()
+		
+		# Ensure current_brightness is a float (convert from String if needed)
+		var current_brightness = float(current_brightness_raw)
+		
+		# The C++ emergency behavior handles the blinking logic
+		# We just need to sync the SVG visual with the C++ state
+		if current_brightness > 0.5:
+			# C++ is in bright phase, make SVG bright red
+			light_bar.modulate = Color(1.0, 0.2, 0.2, current_brightness)
+		else:
+			# C++ is in dim phase, make SVG dim red  
+			light_bar.modulate = Color(0.3, 0.0, 0.0, current_brightness)
+		
+		print("💡 Emergency blink - Mode: ", current_mode, " Brightness: ", current_brightness)
+	else:
+		# Fallback to manual blinking if C++ not available
 		if light_bar.modulate.r > 0.5:
 			light_bar.modulate = Color(0.3, 0.0, 0.0, 1.0)  # Dim red
 		else:
 			_set_emergency_light_color()  # Bright red
 
 func _set_emergency_light_color():
-	# Set light bar to emergency red color
-	light_bar.modulate = Color(1.0, 0.2, 0.2, 1.0)  # Bright emergency red
+	# Set light bar to emergency red color, coordinated with C++ Strategy
+	if not light_bar:
+		print("⚠️ Light bar node not found - cannot set emergency color")
+		return
+		
+	if cpp_light_strip:
+		# Get brightness from C++ Strategy pattern
+		var cpp_brightness_raw = cpp_light_strip.get_brightness()
+		var cpp_brightness = float(cpp_brightness_raw)
+		light_bar.modulate = Color(1.0, 0.2, 0.2, cpp_brightness)
+		print("🚨 Emergency color set - C++ brightness: ", cpp_brightness)
+	else:
+		# Fallback without C++ extension
+		light_bar.modulate = Color(1.0, 0.2, 0.2, 1.0)  # Bright emergency red
 
 func _update_light_bar_color():
 	# Update light bar color based on current RGB values and emergency state
 	if current_emergency_state == EmergencyState.EMERGENCY:
 		return  # Don't update color during emergency mode
 	
-	# Calculate color from RGB sliders
-	var red = rgb_values["red"] / 100.0
-	var green = rgb_values["green"] / 100.0
-	var blue = rgb_values["blue"] / 100.0
-	var brightness = manual_brightness / 100.0
-	
-	# Apply brightness to RGB values
-	var final_color = Color(red * brightness, green * brightness, blue * brightness, 1.0)
-	light_bar.modulate = final_color
+	# Use C++ Strategy pattern for light mode calculation if available
+	if cpp_light_strip:
+		# Get current mode from C++ Strategy pattern
+		var cpp_mode = cpp_light_strip.get_current_mode()
+		var cpp_brightness_raw = cpp_light_strip.get_brightness()
+		
+		# Ensure cpp_brightness is a float (convert from String if needed)
+		var cpp_brightness = float(cpp_brightness_raw)
+		
+		# Apply C++ Strategy pattern brightness to our calculations
+		var strategy_brightness = manual_brightness / 100.0 * cpp_brightness
+		print("💡 C++ Strategy Mode: ", cpp_mode, " Brightness: ", cpp_brightness)
+		
+		# Calculate color from RGB sliders with C++ Strategy influence
+		var red = rgb_values["red"] / 100.0
+		var green = rgb_values["green"] / 100.0
+		var blue = rgb_values["blue"] / 100.0
+		
+		# Apply strategy-based brightness to RGB values
+		var final_color = Color(red * strategy_brightness, green * strategy_brightness, blue * strategy_brightness, 1.0)
+		light_bar.modulate = final_color
+	else:
+		# Fallback to original behavior without C++ Strategy
+		var red = rgb_values["red"] / 100.0
+		var green = rgb_values["green"] / 100.0
+		var blue = rgb_values["blue"] / 100.0
+		var brightness = manual_brightness / 100.0
+		
+		# Apply brightness to RGB values
+		var final_color = Color(red * brightness, green * brightness, blue * brightness, 1.0)
+		light_bar.modulate = final_color
 
 func _update_rgb_labels():
 	# Update RGB value labels

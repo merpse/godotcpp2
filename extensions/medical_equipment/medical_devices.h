@@ -140,11 +140,10 @@ private:
     VitalSigns currentVitals;
     bool isMonitoring;
     std::vector<DeviceObserver*> observers;
-    float updateInterval; // seconds
-    float lastUpdateTime;
+    // Note: updateInterval and lastUpdateTime removed as they were unused
 
 public:
-    VitalSignMonitor() : isMonitoring(false), updateInterval(1.0f), lastUpdateTime(0.0f) {}
+    VitalSignMonitor() : isMonitoring(false) {}
     
     void startMonitoring() {
         if (!isMonitoring) {
@@ -301,6 +300,11 @@ private:
         
         if (vitals.temperature > 38.5f || vitals.temperature < 36.0f) {
             UtilityFunctions::print("⚠️  WARNING: Abnormal temperature!");
+        }
+        
+        // Log critical status for monitoring purposes
+        if (critical) {
+            UtilityFunctions::print("🚨 CRITICAL STATUS: Patient requires immediate attention!");
         }
     }
 };

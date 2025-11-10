@@ -16,7 +16,7 @@ medical_equipment/enabled=true
 
 config/name="Surgical Bed Menu Demo - C++ Extension"
 config/description="Interactive surgical bed control interface with C++ GDExtension integration"
-run/main_scene="uid://b8md4p7qk9n5x"
+run/main_scene="uid://8sxf3lcnoxm7"
 config/features=PackedStringArray("4.5")
 
 [display]

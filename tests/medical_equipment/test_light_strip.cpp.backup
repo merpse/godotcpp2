@@ -1,0 +1,379 @@
+#include <gtest/gtest.h>
+#include <gtest/gtest.h>
+#include "../../extensions/medical_equipment/light_strip.h"
+#include "../../extensions/medical_equipment/godot_light_strip.h"
+#include "../shared/mocks/godot_mock.h"
+
+using ::testing::_;
+using ::testing::StrictMock;
+
+namespace {
+
+// Mock Observer for testing Observer pattern
+class MockEmergencyObserver : public EmergencyObserver {
+public:
+    MOCK_METHOD(void, onEmergencyActivated, (), (override));
+    MOCK_METHOD(void, onEmergencyDeactivated, (), (override));
+};
+
+// Test fixture for LightStrip core class
+class LightStripTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        lightStrip = std::make_unique<LightStrip>();
+        mockObserver = std::make_unique<StrictMock<MockEmergencyObserver>>();
+    }
+
+    void TearDown() override {
+        lightStrip.reset();
+        mockObserver.reset();
+    }
+
+    std::unique_ptr<LightStrip> lightStrip;
+    std::unique_ptr<StrictMock<MockEmergencyObserver>> mockObserver;
+};
+
+// Test fixture for GodotLightStrip wrapper
+class GodotLightStripTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        GodotMock::reset();
+        godotLightStrip = std::make_unique<GodotLightStrip>();
+    }
+
+    void TearDown() override {
+        godotLightStrip.reset();
+    }
+
+    std::unique_ptr<GodotLightStrip> godotLightStrip;
+};
+
+} // anonymous namespace
+
+// ================================
+// Core LightStrip Tests
+// ================================
+
+TEST_F(LightStripTest, InitializesWithNormalBehavior) {
+    // Should start in Normal mode
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Normal");
+    EXPECT_FALSE(lightStrip->isEmergencyMode());
+}
+
+TEST_F(LightStripTest, CanSwitchToEmergencyMode) {
+    // Add observer to verify notification
+    lightStrip->addObserver(mockObserver.get());
+    
+    // Expect emergency activation notification
+    EXPECT_CALL(*mockObserver, onEmergencyActivated()).Times(1);
+    
+    // Switch to emergency mode
+    lightStrip->activateEmergencyMode();
+    
+    // Verify emergency state
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Emergency");
+    EXPECT_TRUE(lightStrip->isEmergencyMode());
+}
+
+TEST_F(LightStripTest, CanSwitchBackToNormalMode) {
+    // Add observer
+    lightStrip->addObserver(mockObserver.get());
+    
+    // Activate emergency first
+    EXPECT_CALL(*mockObserver, onEmergencyActivated()).Times(1);
+    lightStrip->activateEmergencyMode();
+    
+    // Then deactivate
+    EXPECT_CALL(*mockObserver, onEmergencyDeactivated()).Times(1);
+    lightStrip->deactivateEmergencyMode();
+    
+    // Verify normal state
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Normal");
+    EXPECT_FALSE(lightStrip->isEmergencyMode());
+}
+
+TEST_F(LightStripTest, StrategyPatternBehaviorSwitching) {
+    // Test switching between different behaviors using Strategy pattern
+    
+    // Start with normal behavior
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Normal");
+    
+    // Create custom emergency behavior
+    auto emergencyBehavior = std::make_unique<EmergencyLightBehavior>();
+    lightStrip->setBehavior(std::move(emergencyBehavior));
+    
+    // Should now be in emergency mode
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Emergency");
+    EXPECT_TRUE(lightStrip->isEmergencyMode());
+    
+    // Switch back to normal
+    auto normalBehavior = std::make_unique<NormalLightBehavior>();
+    lightStrip->setBehavior(std::move(normalBehavior));
+    
+    EXPECT_EQ(lightStrip->getCurrentMode(), "Normal");
+    EXPECT_FALSE(lightStrip->isEmergencyMode());
+}
+
+TEST_F(LightStripTest, ObserverPatternNotifications) {
+    // Test observer pattern functionality
+    auto observer1 = std::make_unique<StrictMock<MockEmergencyObserver>>();
+    auto observer2 = std::make_unique<StrictMock<MockEmergencyObserver>>();
+    
+    // Add both observers
+    lightStrip->addObserver(observer1.get());
+    lightStrip->addObserver(observer2.get());
+    
+    // Both should be notified of emergency activation
+    EXPECT_CALL(*observer1, onEmergencyActivated()).Times(1);
+    EXPECT_CALL(*observer2, onEmergencyActivated()).Times(1);
+    
+    lightStrip->activateEmergencyMode();
+    
+    // Remove one observer
+    lightStrip->removeObserver(observer1.get());
+    
+    // Only observer2 should be notified of deactivation
+    EXPECT_CALL(*observer2, onEmergencyDeactivated()).Times(1);
+    
+    lightStrip->deactivateEmergencyMode();
+}
+
+TEST_F(LightStripTest, LightColorHandling) {
+    // Test color setting functionality
+    LightColor testColor(128, 64, 192);
+    
+    // Should work in normal mode
+    lightStrip->setColor(testColor);
+    
+    // Should handle color setting gracefully in emergency mode
+    lightStrip->activateEmergencyMode();
+    lightStrip->setColor(testColor); // Emergency mode locks color to red
+}
+
+TEST_F(LightStripTest, BrightnessControl) {
+    // Test brightness control
+    lightStrip->setBrightness(0.75f);
+    lightStrip->setBrightness(0.0f);   // Minimum
+    lightStrip->setBrightness(1.0f);   // Maximum
+    
+    // Emergency mode should lock brightness
+    lightStrip->activateEmergencyMode();
+    lightStrip->setBrightness(0.5f);
+}
+
+// ================================
+// Normal Behavior Tests
+// ================================
+
+TEST(NormalLightBehaviorTest, InitialState) {
+    NormalLightBehavior behavior;
+    
+    EXPECT_EQ(behavior.getBehaviorType(), "Normal");
+    EXPECT_FALSE(behavior.isEmergencyMode());
+}
+
+TEST(NormalLightBehaviorTest, ActivationDeactivation) {
+    NormalLightBehavior behavior;
+    
+    behavior.activate();   // Should print activation message
+    behavior.deactivate(); // Should print deactivation message
+}
+
+// ================================
+// Emergency Behavior Tests  
+// ================================
+
+TEST(EmergencyLightBehaviorTest, InitialState) {
+    EmergencyLightBehavior behavior;
+    
+    EXPECT_EQ(behavior.getBehaviorType(), "Emergency");
+    EXPECT_TRUE(behavior.isEmergencyMode());
+}
+
+TEST(EmergencyLightBehaviorTest, LockedSettings) {
+    EmergencyLightBehavior behavior;
+    
+    // Emergency mode should ignore color and brightness changes
+    behavior.setColor(LightColor(0, 255, 0)); // Green - should be ignored
+    behavior.setBrightness(0.3f);             // Low brightness - should be ignored
+}
+
+// ================================
+// GodotLightStrip Wrapper Tests
+// ================================
+
+TEST_F(GodotLightStripTest, CreationAndDestruction) {
+    // Should create without issues
+    EXPECT_NE(godotLightStrip.get(), nullptr);
+}
+
+TEST_F(GodotLightStripTest, ActivationDeactivation) {
+    // Test wrapper activation/deactivation
+    godotLightStrip->activate();
+    godotLightStrip->deactivate();
+}
+
+TEST_F(GodotLightStripTest, BehaviorSetting) {
+    // Test setting different behaviors through wrapper
+    godotLightStrip->set_normal_behavior();
+    EXPECT_EQ(godotLightStrip->get_current_behavior(), "Normal");
+    
+    godotLightStrip->set_emergency_behavior();
+    EXPECT_EQ(godotLightStrip->get_current_behavior(), "Emergency");
+}
+
+TEST_F(GodotLightStripTest, BehaviorByString) {
+    // Test our new set_behavior method that takes a string
+    godotLightStrip->set_behavior("auto");
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Normal");
+    
+    godotLightStrip->set_behavior("manual"); 
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Normal");
+    
+    godotLightStrip->set_behavior("emergency");
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Emergency");
+}
+
+TEST_F(GodotLightStripTest, BrightnessReturnsFloat) {
+    // Test that get_brightness returns a proper float (not String)
+    float brightness = godotLightStrip->get_brightness();
+    
+    // Should be a valid float value
+    EXPECT_GE(brightness, 0.0f);
+    EXPECT_LE(brightness, 1.0f);
+}
+
+TEST_F(GodotLightStripTest, ActiveState) {
+    // Test activation state tracking
+    EXPECT_FALSE(godotLightStrip->is_active()); // Should start inactive
+    
+    godotLightStrip->activate();
+    EXPECT_TRUE(godotLightStrip->is_active());
+    
+    godotLightStrip->deactivate();
+    EXPECT_FALSE(godotLightStrip->is_active());
+}
+
+TEST_F(GodotLightStripTest, ColorSetting) {
+    // Test RGB color setting
+    godotLightStrip->set_color(255.0f, 128.0f, 64.0f);
+    
+    // Color should be applied (exact verification would need getter methods)
+}
+
+TEST_F(GodotLightStripTest, BrightnessSetting) {
+    // Test brightness setting and clamping
+    godotLightStrip->set_brightness(0.75f);
+    
+    // Test boundary values
+    godotLightStrip->set_brightness(0.0f);   // Minimum
+    godotLightStrip->set_brightness(1.0f);   // Maximum  
+    godotLightStrip->set_brightness(-0.5f);  // Below minimum - should clamp
+    godotLightStrip->set_brightness(1.5f);   // Above maximum - should clamp
+}
+
+// ================================
+// Integration Tests
+// ================================
+
+TEST_F(GodotLightStripTest, EmergencyModeIntegration) {
+    // Test full emergency workflow through Godot wrapper
+    
+    // Start in normal mode
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Normal");
+    
+    // Activate emergency
+    godotLightStrip->set_behavior("emergency");
+    godotLightStrip->activate();
+    
+    // Should be in emergency mode
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Emergency");
+    EXPECT_TRUE(godotLightStrip->is_active());
+    
+    // Return to normal
+    godotLightStrip->set_behavior("auto");
+    
+    EXPECT_EQ(godotLightStrip->get_current_mode(), "Normal");
+}
+
+TEST_F(GodotLightStripTest, MethodBindingCompleteness) {
+    // Verify all expected methods are accessible
+    // This ensures our _bind_methods() is complete
+    
+    // Activation methods
+    godotLightStrip->activate();
+    godotLightStrip->deactivate();
+    
+    // Behavior methods
+    godotLightStrip->set_normal_behavior();
+    godotLightStrip->set_emergency_behavior();
+    godotLightStrip->set_behavior("auto");
+    
+    // Property setters
+    godotLightStrip->set_brightness(0.8f);
+    godotLightStrip->set_color(255.0f, 255.0f, 255.0f);
+    
+    // Property getters
+    bool active = godotLightStrip->is_active();
+    float brightness = godotLightStrip->get_brightness();
+    String behavior = godotLightStrip->get_current_behavior();
+    String mode = godotLightStrip->get_current_mode();
+    
+    // All calls should complete without crashing
+    SUCCEED();
+}
+
+// ================================
+// Error Handling Tests
+// ================================
+
+TEST_F(LightStripTest, NullBehaviorHandling) {
+    // Test behavior with null behavior pointer
+    lightStrip->setBehavior(nullptr);
+    
+    // Should not crash with null behavior
+    lightStrip->activate();
+    lightStrip->deactivate();
+    lightStrip->setBrightness(0.5f);
+    lightStrip->setColor(LightColor(255, 255, 255));
+    
+    // getCurrentMode should handle null gracefully
+    EXPECT_EQ(lightStrip->getCurrentMode(), "None");
+}
+
+TEST_F(GodotLightStripTest, InvalidBehaviorString) {
+    // Test invalid behavior string handling
+    godotLightStrip->set_behavior("invalid_mode");
+    
+    // Should default to some reasonable behavior (likely normal)
+    String mode = godotLightStrip->get_current_mode();
+    EXPECT_TRUE(mode == "Normal" || mode == "Emergency");
+}
+
+// ================================
+// Performance Tests
+// ================================
+
+TEST_F(LightStripTest, MultipleObserverPerformance) {
+    // Test performance with many observers
+    std::vector<std::unique_ptr<MockEmergencyObserver>> observers;
+    
+    // Add many observers
+    for (int i = 0; i < 100; ++i) {
+        auto observer = std::make_unique<MockEmergencyObserver>();
+        EXPECT_CALL(*observer, onEmergencyActivated()).Times(1);
+        EXPECT_CALL(*observer, onEmergencyDeactivated()).Times(1);
+        
+        lightStrip->addObserver(observer.get());
+        observers.push_back(std::move(observer));
+    }
+    
+    // Should handle many observers efficiently
+    lightStrip->activateEmergencyMode();
+    lightStrip->deactivateEmergencyMode();
+    
+    // Clean up
+    for (auto& observer : observers) {
+        lightStrip->removeObserver(observer.get());
+    }
+}

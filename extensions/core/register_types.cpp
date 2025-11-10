@@ -6,6 +6,7 @@
 #include "../medical_equipment/patient_bed.h"
 #include "../medical_equipment/surgical_bed.h"
 #include "../medical_equipment/godot_bed_factory.h"
+#include "../medical_equipment/godot_light_strip.h"
 
 using namespace godot;
 
@@ -25,6 +26,7 @@ void initialize_window_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<PatientBed>();
     ClassDB::register_class<SurgicalBed>();
     ClassDB::register_class<BedFactory>();
+    ClassDB::register_class<GodotLightStrip>();
     UtilityFunctions::print("✅ Medical equipment classes registered");
 }
 
