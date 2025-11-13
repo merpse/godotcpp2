@@ -364,6 +364,14 @@ bool SurgicalBed::isSurgicalPositioningValid() const {
 }
 
 void SurgicalBed::_bind_methods() {
+    // Bind methods from base Bed class that use pure virtual functions
+    // These were not bound at the abstract class level to avoid Windows/MSVC registration issues
+    ClassDB::bind_method(D_METHOD("power_on"), &SurgicalBed::powerOn);
+    ClassDB::bind_method(D_METHOD("power_off"), &SurgicalBed::powerOff);
+    ClassDB::bind_method(D_METHOD("trigger_emergency"), &SurgicalBed::triggerEmergency);
+    ClassDB::bind_method(D_METHOD("clear_emergency"), &SurgicalBed::clearEmergency);
+    ClassDB::bind_method(D_METHOD("perform_maintenance_check"), &SurgicalBed::performMaintenanceCheck);
+    
     // Bind SurgicalBed specific methods
     ClassDB::bind_method(D_METHOD("enter_sterile_mode"), &SurgicalBed::enterSterileMode);
     ClassDB::bind_method(D_METHOD("exit_sterile_mode"), &SurgicalBed::exitSterileMode);

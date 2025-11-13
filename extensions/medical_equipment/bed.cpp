@@ -199,8 +199,9 @@ bool Bed::validateHeightRange(float height) const {
 
 void Bed::_bind_methods() {
     // Bind common bed methods to Godot
-    ClassDB::bind_method(D_METHOD("power_on"), &Bed::powerOn);
-    ClassDB::bind_method(D_METHOD("power_off"), &Bed::powerOff);
+    // Note: Methods that call pure virtual functions (like getClassName()) are not bound here
+    // to avoid issues with abstract class registration on Windows/MSVC.
+    // Concrete classes can bind these methods if needed.
     ClassDB::bind_method(D_METHOD("raise_height", "amount"), &Bed::raiseHeight);
     ClassDB::bind_method(D_METHOD("lower_height", "amount"), &Bed::lowerHeight);
     ClassDB::bind_method(D_METHOD("set_height", "height"), &Bed::setHeight);
@@ -209,9 +210,6 @@ void Bed::_bind_methods() {
     ClassDB::bind_method(D_METHOD("deactivate_lights"), &Bed::deactivateLights);
     ClassDB::bind_method(D_METHOD("set_light_brightness", "intensity"), &Bed::setLightBrightness);
     ClassDB::bind_method(D_METHOD("set_temperature", "mode"), static_cast<void (Bed::*)(int)>(&Bed::setTemperature));
-    ClassDB::bind_method(D_METHOD("trigger_emergency"), &Bed::triggerEmergency);
-    ClassDB::bind_method(D_METHOD("clear_emergency"), &Bed::clearEmergency);
-    ClassDB::bind_method(D_METHOD("perform_maintenance_check"), &Bed::performMaintenanceCheck);
     ClassDB::bind_method(D_METHOD("get_temperature_value"), &Bed::getTemperatureValue);
     
     // Temperature control constants

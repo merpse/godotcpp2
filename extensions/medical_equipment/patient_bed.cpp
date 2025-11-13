@@ -161,6 +161,14 @@ void PatientBed::resetToDefaultSettings() {
 }
 
 void PatientBed::_bind_methods() {
+    // Bind methods from base Bed class that use pure virtual functions
+    // These were not bound at the abstract class level to avoid Windows/MSVC registration issues
+    ClassDB::bind_method(D_METHOD("power_on"), &PatientBed::powerOn);
+    ClassDB::bind_method(D_METHOD("power_off"), &PatientBed::powerOff);
+    ClassDB::bind_method(D_METHOD("trigger_emergency"), &PatientBed::triggerEmergency);
+    ClassDB::bind_method(D_METHOD("clear_emergency"), &PatientBed::clearEmergency);
+    ClassDB::bind_method(D_METHOD("perform_maintenance_check"), &PatientBed::performMaintenanceCheck);
+    
     // Bind PatientBed specific methods
     ClassDB::bind_method(D_METHOD("simulate_patient_entry"), &PatientBed::simulatePatientEntry);
     ClassDB::bind_method(D_METHOD("simulate_patient_exit"), &PatientBed::simulatePatientExit);
